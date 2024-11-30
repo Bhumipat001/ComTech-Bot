@@ -45,6 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dotenv = __importStar(require("dotenv"));
 const ping_1 = require("./commands/ping");
+const uptime_1 = require("./commands/uptime");
 const Hello_World_1 = require("./Hello World");
 (0, Hello_World_1.startHttpServer)();
 dotenv.config();
@@ -60,6 +61,8 @@ client.once('ready', () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     console.log(`Bot is online! Logged in as ${(_a = client.user) === null || _a === void 0 ? void 0 : _a.tag}`);
     yield (0, ping_1.registerPingCommand)(client);
+    yield (0, uptime_1.registerUptimeCommand)(client);
+    (0, uptime_1.setStartTime)(Date.now());
 }));
 client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0, void 0, function* () {
     if (!interaction.isCommand())
@@ -67,6 +70,9 @@ client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0, void 0
     const commandInteraction = interaction;
     if (commandInteraction.commandName === 'ping') {
         yield (0, ping_1.handlePingInteraction)(commandInteraction);
+    }
+    else if (commandInteraction.commandName === 'uptime') {
+        yield (0, uptime_1.handleUptimeInteraction)(commandInteraction);
     }
 }));
 client.login(token).catch((error) => {

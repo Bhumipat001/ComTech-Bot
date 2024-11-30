@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, CommandInteraction } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { registerPingCommand, handlePingInteraction } from './commands/ping';
+import { registerUptimeCommand, handleUptimeInteraction, setStartTime } from './commands/uptime';
 
 import { startHttpServer } from './Hello World';
 startHttpServer();
@@ -21,6 +22,9 @@ client.once('ready', async () => {
     console.log(`Bot is online! Logged in as ${client.user?.tag}`);
 
     await registerPingCommand(client);
+    await registerUptimeCommand(client);
+
+    setStartTime(Date.now());
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -30,6 +34,8 @@ client.on('interactionCreate', async (interaction) => {
 
     if (commandInteraction.commandName === 'ping') {
         await handlePingInteraction(commandInteraction);
+    } else if (commandInteraction.commandName === 'uptime') {
+        await handleUptimeInteraction(commandInteraction);
     }
 });
 
