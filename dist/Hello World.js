@@ -41,6 +41,5 @@ function startHttpServer() {
         res.end();
     });
     server.listen(8080, () => {
-        console.log('Hello, World!');
     });
 }

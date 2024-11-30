@@ -7,6 +7,5 @@ export function startHttpServer() {
   });
 
   server.listen(8080, () => {
-    console.log('Hello, World!');
   });
 }
