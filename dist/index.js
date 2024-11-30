@@ -32,9 +32,19 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const dotenv = __importStar(require("dotenv"));
+const ping_1 = require("./commands/ping");
 const Hello_World_1 = require("./Hello World");
 (0, Hello_World_1.startHttpServer)();
 dotenv.config();
@@ -43,11 +53,22 @@ if (!token) {
     console.error('DISCORD_TOKEN is not set in the .env file!');
     process.exit(1);
 }
-const client = new discord_js_1.Client({ intents: [discord_js_1.GatewayIntentBits.Guilds] });
-client.once('ready', () => {
+const client = new discord_js_1.Client({
+    intents: [discord_js_1.GatewayIntentBits.Guilds],
+});
+client.once('ready', () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     console.log(`Bot is online! Logged in as ${(_a = client.user) === null || _a === void 0 ? void 0 : _a.tag}`);
-});
+    yield (0, ping_1.registerPingCommand)(client);
+}));
+client.on('interactionCreate', (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!interaction.isCommand())
+        return;
+    const commandInteraction = interaction;
+    if (commandInteraction.commandName === 'ping') {
+        yield (0, ping_1.handlePingInteraction)(commandInteraction);
+    }
+}));
 client.login(token).catch((error) => {
     console.error('Failed to login:', error);
 });
