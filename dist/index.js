@@ -46,8 +46,8 @@ const discord_js_1 = require("discord.js");
 const dotenv = __importStar(require("dotenv"));
 const ping_1 = require("./commands/ping");
 const uptime_1 = require("./commands/uptime");
-const Hello_World_1 = require("./Hello World");
-(0, Hello_World_1.startHttpServer)();
+const botStatusWeb_1 = require("./botStatusWeb");
+(0, botStatusWeb_1.startHttpServer)();
 dotenv.config();
 const token = process.env.DISCORD_TOKEN;
 if (!token) {

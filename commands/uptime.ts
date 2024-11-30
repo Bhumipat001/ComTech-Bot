@@ -13,7 +13,11 @@ export const setStartTime = (start: number) => {
     startTime = start;
 };
 
-export const handleUptimeInteraction = async (interaction: CommandInteraction) => {
+export const getUptimeString = (): string => {
+    if (!startTime) {
+        return "Bot start time is not set.";
+    }
+
     const currentTime = Date.now();
     const uptime = currentTime - startTime;
 
@@ -22,5 +26,10 @@ export const handleUptimeInteraction = async (interaction: CommandInteraction) =
     const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
 
-    await interaction.reply(`Uptime: \`${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds\``);
+    return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+};
+
+export const handleUptimeInteraction = async (interaction: CommandInteraction) => {
+    const uptimeString = getUptimeString();
+    await interaction.reply(`Uptime: \`${uptimeString}\``);
 };

@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 import { registerPingCommand, handlePingInteraction } from './commands/ping';
 import { registerUptimeCommand, handleUptimeInteraction, setStartTime } from './commands/uptime';
 
-import { startHttpServer } from './Hello World';
+import { startHttpServer } from './botStatusWeb';
 startHttpServer();
 
 dotenv.config();

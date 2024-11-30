@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleUptimeInteraction = exports.setStartTime = exports.registerUptimeCommand = void 0;
+exports.handleUptimeInteraction = exports.getUptimeString = exports.setStartTime = exports.registerUptimeCommand = void 0;
 let startTime;
 const registerUptimeCommand = (client) => __awaiter(void 0, void 0, void 0, function* () {
     yield client.application.commands.create({
@@ -22,13 +22,21 @@ const setStartTime = (start) => {
     startTime = start;
 };
 exports.setStartTime = setStartTime;
-const handleUptimeInteraction = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const getUptimeString = () => {
+    if (!startTime) {
+        return "Bot start time is not set.";
+    }
     const currentTime = Date.now();
     const uptime = currentTime - startTime;
     const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
     const hours = Math.floor((uptime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
-    yield interaction.reply(`Uptime: \`${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds\``);
+    return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+};
+exports.getUptimeString = getUptimeString;
+const handleUptimeInteraction = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+    const uptimeString = (0, exports.getUptimeString)();
+    yield interaction.reply(`Uptime: \`${uptimeString}\``);
 });
 exports.handleUptimeInteraction = handleUptimeInteraction;
