@@ -1,5 +1,9 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
+
+import { startHttpServer } from './Hello World';
+startHttpServer();
+
 dotenv.config();
 const token = process.env.DISCORD_TOKEN;
 

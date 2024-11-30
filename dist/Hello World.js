@@ -33,21 +33,14 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
-const dotenv = __importStar(require("dotenv"));
-const Hello_World_1 = require("./Hello World");
-(0, Hello_World_1.startHttpServer)();
-dotenv.config();
-const token = process.env.DISCORD_TOKEN;
-if (!token) {
-    console.error('DISCORD_TOKEN is not set in the .env file!');
-    process.exit(1);
+exports.startHttpServer = startHttpServer;
+const http = __importStar(require("http"));
+function startHttpServer() {
+    const server = http.createServer((req, res) => {
+        res.write("Hello, World!");
+        res.end();
+    });
+    server.listen(8080, () => {
+        console.log('Hello, World!');
+    });
 }
-const client = new discord_js_1.Client({ intents: [discord_js_1.GatewayIntentBits.Guilds] });
-client.once('ready', () => {
-    var _a;
-    console.log(`Bot is online! Logged in as ${(_a = client.user) === null || _a === void 0 ? void 0 : _a.tag}`);
-});
-client.login(token).catch((error) => {
-    console.error('Failed to login:', error);
-});
